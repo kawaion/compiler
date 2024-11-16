@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuilderTokensIntoExpression.cs" />
     <Compile Include="Error\ErrorWriting.cs" />
     <Compile Include="Expression\BinaryExpression.cs" />
     <Compile Include="Expression\NodeExpression.cs" />

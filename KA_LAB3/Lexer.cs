@@ -24,7 +24,7 @@ namespace KA_LAB3
             var tokens = new SingleTokenLexer(_text).Split();
             ErrorWriting.IsNumberOpenAndClosedBrackets(tokens);
             ErrorWriting.IsTwoSignInRow(tokens);
-            tokens = new TokenMerger(_vars).Merge(tokens);
+            tokens = new TokenMerger(tokens,_vars).Merge();
             return tokens;
         }
     }

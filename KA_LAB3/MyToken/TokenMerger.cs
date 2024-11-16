@@ -9,82 +9,92 @@ namespace KA_LAB3.MyToken
 {
     internal class TokenMerger
     {
+        private readonly List<Token> _tokens;
         private readonly List<string> _vars;
-        public TokenMerger(List<string> vars=null)
+        private int _position;
+        public TokenMerger(List<Token> tokens,List<string> vars=null)
         {
+            _tokens = tokens;
             _vars = vars;
+            _position = 0;
         }
-        public List<Token> Merge(List<Token> tokens)
+        private Token Current => _tokens[_position];
+        private Token NextToken()
+        {
+            var token = Current;
+            _position++;
+            return token;
+        }
+        public List<Token> Merge()
         {
             List<Token> resTokens = new List<Token>();
-            for (int i = 0; i < tokens.Count; i++)
+            while (Current.Kind != TokenKind.End)
             {
-                Token token = tokens[i];
-                if (token.Kind == TokenKind.Number)
+                if (Current.Kind == TokenKind.Number)
                 {
-                    resTokens.Add(MergeDigit(tokens, ref i));
+                    resTokens.Add(MergeDigit());
                 }
-                else if (token.Kind == TokenKind.Char)
+                else if (Current.Kind == TokenKind.Char)
                 {
-                    resTokens.Add(MergeChar(tokens, ref i));
+                    resTokens.Add(MergeChar());
                 }
                 else
-                    if (token.Kind != TokenKind.Space)
-                    resTokens.Add(token);
+                {
+                    if (Current.Kind != TokenKind.Space)
+                        resTokens.Add(Current);
+                    NextToken();
+                }
             }
-            return resTokens;
+            resTokens.Add(new Token(TokenKind.End, "\0"));
+            return resTokens;             
         }
+            
+        
 
-        private Token MergeDigit(List<Token> tokens, ref int i)
+        private Token MergeDigit()
         {
-            Token token = tokens[i];
-            Token resToken = null;
-            int startPosition = i;
-            while (token.Kind == TokenKind.Number & token.Kind != TokenKind.End)
+            Token token;
+            int startPosition = _position;
+            while (Current.Kind == TokenKind.Number & Current.Kind != TokenKind.End)
             {
-                i++;
-                token = tokens[i];
+                NextToken();
             }
-            int endPosition = i;
+            int endPosition = _position;
             int count = endPosition - startPosition;
-            var digitTokens = tokens.GetRange(startPosition, count);
+            var digitTokens = _tokens.GetRange(startPosition, count);
             string number = MergeToString(digitTokens);
             if (int.TryParse(number, out int value))
             {
-                resToken = new Token(TokenKind.Number, value);
+                token = new Token(TokenKind.Number, value);
             }
             else
-                resToken = new Token(TokenKind.Bad, null);
-            ErrorWriting.IsVarStartsWithNumber(token, number);
-            i--;
-            return resToken;
+                token = new Token(TokenKind.Bad, null);
+            ErrorWriting.IsVarStartsWithNumber(Current, number);
+            return token;
         }
-        private Token MergeChar(List<Token> tokens, ref int i)
+        private Token MergeChar()
         {
-            Token token = tokens[i];
-            Token resToken = null;
-            int startPosition = i;
-            while ((token.Kind == TokenKind.Number || token.Kind == TokenKind.Char) & token.Kind != TokenKind.End)
+            Token token;
+            int startPosition = _position;
+            while ((Current.Kind == TokenKind.Number || Current.Kind == TokenKind.Char) & Current.Kind != TokenKind.End)
             {
-                i++;
-                token = tokens[i];
+                NextToken();
             }
-            int endPosition = i;
+            int endPosition = _position;
             int count = endPosition - startPosition;
-            var CharTokens = tokens.GetRange(startPosition, count);
+            var CharTokens = _tokens.GetRange(startPosition, count);
             string word = MergeToString(CharTokens);
             if (_vars.Contains(word))
             {
-                resToken = new Token(TokenKind.Var, word);
+                token = new Token(TokenKind.Var, word);
             }
             else if (IsTokenFunction(word))
             {
-                resToken = new Token(TokenKind.function, word);
+                token = new Token(TokenKind.function, word);
             }
             else
-                resToken = new Token(TokenKind.Bad, null);
-            i--;
-            return resToken;
+                token = new Token(TokenKind.Bad, null);
+            return token;
         }
 
         private bool IsTokenFunction(string word)
