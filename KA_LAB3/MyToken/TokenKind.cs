@@ -22,6 +22,8 @@ namespace KA_LAB3
         OpenBracket,
         ClosedBracket,
         Dot,
-        Bad
+        Bad,
+        NumberExpression,
+        BinaryExpression
     }
 }

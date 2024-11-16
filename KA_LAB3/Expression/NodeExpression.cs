@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace KA_LAB3.Expression
 {
-    internal class NodeExpression
+    abstract internal class NodeExpression
     {
+        public abstract TokenKind Kind { get;}
     }
 }
