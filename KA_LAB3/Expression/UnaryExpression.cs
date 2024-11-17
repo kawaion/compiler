@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace KA_LAB3.Expression
 {
-    abstract internal class NodeExpression
+    class UnaryExpression : NodeExpression
     {
-        public abstract ExpressionKind Kind { get;}
+        public override ExpressionKind Kind => ExpressionKind.Unary;
+        //public NodeExpression Expression { get; }
     }
 }

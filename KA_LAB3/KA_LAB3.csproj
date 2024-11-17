@@ -49,8 +49,13 @@
     <Compile Include="BuilderTokensIntoExpression.cs" />
     <Compile Include="Error\ErrorWriting.cs" />
     <Compile Include="Expression\BinaryExpression.cs" />
+    <Compile Include="Expression\bracketExpression.cs" />
+    <Compile Include="Expression\ExpressionKind.cs" />
+    <Compile Include="Expression\FunctionExpression.cs" />
     <Compile Include="Expression\NodeExpression.cs" />
     <Compile Include="Expression\NumberExpression.cs" />
+    <Compile Include="Expression\SignExpression.cs" />
+    <Compile Include="Expression\UnaryExpression.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace KA_LAB3.Expression
 {
-    abstract internal class NodeExpression
+    enum ExpressionKind
     {
-        public abstract ExpressionKind Kind { get;}
+        Number,
+        Var,
+        Binary,
+        Sign,
+        Unary,
+        Bracket,
+        Function
     }
 }

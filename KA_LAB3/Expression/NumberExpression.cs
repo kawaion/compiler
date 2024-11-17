@@ -12,7 +12,7 @@ namespace KA_LAB3.Expression
         {
             Token = token;
         }
-        public override TokenKind Kind => TokenKind.NumberExpression;
+        public override ExpressionKind Kind => ExpressionKind.Number;
         public Token Token { get; }
     }
 }

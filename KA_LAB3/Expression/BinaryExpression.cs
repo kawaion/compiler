@@ -14,7 +14,7 @@ namespace KA_LAB3.Expression
             OperatorToken = operatorToken;
             Right = right;
         }
-        public override TokenKind Kind => TokenKind.BinaryExpression;
+        public override ExpressionKind Kind => ExpressionKind.Binary;
         public NodeExpression Left { get; }
         public Token OperatorToken { get; }
         public NodeExpression Right { get; }

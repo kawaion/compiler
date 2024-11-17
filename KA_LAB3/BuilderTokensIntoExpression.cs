@@ -24,20 +24,24 @@ namespace KA_LAB3
             _position++;
             return token;
         }
-        //public NodeExpression Build()
-        //{
-        //    while(Current.Kind != TokenKind.End)
-        //    {
-        //        if (Current.Kind == TokenKind.OpenBracket)
-        //        {
-        //            int startPosition = _position + 1;
-        //            while(Current.Kind != TokenKind.ClosedBracket)
-        //            {
-        //                NextToken();
-        //            }
-        //        }
-        //    }
-        //}
+        public NodeExpression Build()
+        {
+            NodeExpression leftNode = null;
+            while (Current.Kind != TokenKind.End)
+            {
+                if (Current.Kind == TokenKind.OpenBracket)
+                {
+                    int startPosition = _position + 1;
+                    while (Current.Kind != TokenKind.ClosedBracket)
+                    {
+                        NextToken();
+                    }
+                    int endPosition = _position - 1;
+                    int count = endPosition - startPosition;
+                    new BuilderTokensIntoExpression(_tokens.GetRange(startPosition, count));
+                }
+            }
+        }
 
     }
 }
