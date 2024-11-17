@@ -90,7 +90,7 @@ namespace KA_LAB3.MyToken
             }
             else if (IsTokenFunction(word))
             {
-                token = new Token(TokenKind.function, word);
+                token = new Token(TokenKind.Function, word);
             }
             else
                 token = new Token(TokenKind.Bad, null);

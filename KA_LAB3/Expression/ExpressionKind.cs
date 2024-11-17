@@ -14,6 +14,7 @@ namespace KA_LAB3.Expression
         Sign,
         Unary,
         Bracket,
-        Function
+        Function,
+        Bad
     }
 }

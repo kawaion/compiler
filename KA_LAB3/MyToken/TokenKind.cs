@@ -17,7 +17,7 @@ namespace KA_LAB3
         Number,
         Var,
         Char,
-        function,
+        Function,
         Space,
         OpenBracket,
         ClosedBracket,
