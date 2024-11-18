@@ -22,6 +22,7 @@ namespace KA_LAB3
         OpenBracket,
         ClosedBracket,
         Dot,
+        Comma,
         Bad,
     }
 }

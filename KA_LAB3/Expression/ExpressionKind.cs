@@ -15,6 +15,7 @@ namespace KA_LAB3.Expression
         Unary,
         Bracket,
         Function,
-        Bad
+        Bad,
+        Comma
     }
 }

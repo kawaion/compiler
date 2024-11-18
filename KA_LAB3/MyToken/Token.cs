@@ -10,12 +10,13 @@ namespace KA_LAB3
     {
         public TokenKind Kind { get; }
         public object Value { get; }
-        public Token(TokenKind kind, object value)
+        public int Position { get; }
+
+        public Token(TokenKind kind, object value, int position)
         {
             Kind = kind;
             Value = value;
-        }
-
-        
+            Position = position;
+        } 
     }
 }

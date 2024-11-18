@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace KA_LAB3.Expression
 {
-    class bracketExpression:UnaryExpression
+    class BracketExpression:UnaryExpression
     {
-        public bracketExpression(NodeExpression node)
+        public BracketExpression(Token openBracket,NodeExpression node,Token closedBracet)
         {
+            OpenBracket = openBracket;
             Node = node;
+            ClosedBracet = closedBracet;
         }
         public override ExpressionKind Kind => ExpressionKind.Bracket;
+
+        public Token OpenBracket { get; }
         public NodeExpression Node { get; }
+        public Token ClosedBracet { get; }
     }
 }

@@ -8,6 +8,7 @@ namespace KA_LAB3.MyToken
 {
     enum TokenFunction
     {
-        arctg
+        arctg,
+        min
     }
 }

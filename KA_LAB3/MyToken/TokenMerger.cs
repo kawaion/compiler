@@ -45,7 +45,7 @@ namespace KA_LAB3.MyToken
                     NextToken();
                 }
             }
-            resTokens.Add(new Token(TokenKind.End, "\0"));
+            resTokens.Add(new Token(TokenKind.End, "\0",_position));
             return resTokens;             
         }
             
@@ -54,6 +54,7 @@ namespace KA_LAB3.MyToken
         private Token MergeDigit()
         {
             Token token;
+
             int startPosition = _position;
             while (Current.Kind == TokenKind.Number & Current.Kind != TokenKind.End)
             {
@@ -65,10 +66,10 @@ namespace KA_LAB3.MyToken
             string number = MergeToString(digitTokens);
             if (int.TryParse(number, out int value))
             {
-                token = new Token(TokenKind.Number, value);
+                token = new Token(TokenKind.Number, value, _tokens[startPosition].Position);
             }
             else
-                token = new Token(TokenKind.Bad, null);
+                token = new Token(TokenKind.Bad, null, _tokens[startPosition].Position);
             ErrorWriting.IsVarStartsWithNumber(Current, number);
             return token;
         }
@@ -84,16 +85,17 @@ namespace KA_LAB3.MyToken
             int count = endPosition - startPosition;
             var CharTokens = _tokens.GetRange(startPosition, count);
             string word = MergeToString(CharTokens);
-            if (_vars.Contains(word))
+            if (IsTokenFunction(word))
             {
-                token = new Token(TokenKind.Var, word);
+                token = new Token(TokenKind.Function, word, _tokens[startPosition].Position);
             }
-            else if (IsTokenFunction(word))
+            else if (_vars.Contains(word))
             {
-                token = new Token(TokenKind.Function, word);
+                token = new Token(TokenKind.Var, word,_tokens[startPosition].Position);
             }
+            
             else
-                token = new Token(TokenKind.Bad, null);
+                token = new Token(TokenKind.Bad, null, _tokens[startPosition].Position);
             return token;
         }
 

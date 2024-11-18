@@ -49,7 +49,7 @@ namespace KA_LAB3.Error
         {
             if (token.Kind == TokenKind.Char)
             {
-                throw new Exception($"пременная начинается с числа {number}{token.Value}");
+                throw new Exception($"пременная начинается с числа {number}{token.Value} на позиции {token.Position}");
             }
         }
     }
