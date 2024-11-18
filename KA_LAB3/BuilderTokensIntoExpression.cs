@@ -37,6 +37,19 @@ namespace KA_LAB3
         }
         private NodeExpression StartNode()
         {
+            NodeExpression leftNode = TermNode();
+            CommaExpression comma = new CommaExpression(leftNode);
+            while (Current.Kind == TokenKind.Comma)
+            {
+                NextToken();
+                NodeExpression rightNode = TermNode();
+                comma.Add(rightNode);
+                leftNode = comma;
+            }
+            return leftNode;
+        }
+        private NodeExpression TermNode()
+        {
             NodeExpression leftNode = FactorNode();
             while (Current.Kind == TokenKind.Plus ||
                    Current.Kind == TokenKind.Minus)
@@ -72,25 +85,12 @@ namespace KA_LAB3
         }
         private NodeExpression DoubleNode()
         {
-            NodeExpression leftNode = CommaNode();
+            NodeExpression leftNode = PrimaryNode();
             while (Current.Kind == TokenKind.Dot)
             {
                 Token dot = NextToken();
-                NodeExpression rightNode = CommaNode();
-                leftNode = new BinaryExpression(leftNode, dot, rightNode);
-            }
-            return leftNode;
-        }
-        private NodeExpression CommaNode() 
-        {
-            NodeExpression leftNode = PrimaryNode();
-            CommaExpression comma = new CommaExpression(leftNode);
-            while (Current.Kind == TokenKind.Comma)
-            {
-                NextToken();
                 NodeExpression rightNode = PrimaryNode();
-                comma.Add(rightNode);
-                leftNode = comma;
+                leftNode = new BinaryExpression(leftNode, dot, rightNode);
             }
             return leftNode;
         }
