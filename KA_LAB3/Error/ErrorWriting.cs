@@ -8,6 +8,10 @@ namespace KA_LAB3.Error
 {
     static class ErrorWriting
     {
+        public static bool ShowBadToken(Token token)
+        {
+            throw new Exception($"ошибка на позиции {token.Position} из-за {(TokenKind)token.Value}");
+        }
         public static bool IsNumberOpenAndClosedBrackets(List<Token> tokens)
         {
             int c = 0;

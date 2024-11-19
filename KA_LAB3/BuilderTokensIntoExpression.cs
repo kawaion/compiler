@@ -29,13 +29,17 @@ namespace KA_LAB3
         {
             if(Current.Kind == kind)
                 return NextToken();
-            return new Token(TokenKind.Bad, kind, Current.Position);
+            return new Token(TokenKind.Bad, Current.Kind, Current.Position);
         }
         public NodeExpression Build()
         {
             return StartNode();
         }
         private NodeExpression StartNode()
+        {
+            return CommaNode();
+        }
+        private NodeExpression CommaNode()
         {
             NodeExpression leftNode = TermNode();
             CommaExpression comma = new CommaExpression(leftNode);
@@ -102,18 +106,12 @@ namespace KA_LAB3
             }
             else if(Current.Kind == TokenKind.OpenBracket)
             {
-                Token openBracket = NextToken();
-                NodeExpression nodeExpression = StartNode();
-                Token closedBracket = Match(TokenKind.ClosedBracket);
-                return new BracketExpression(openBracket, nodeExpression, closedBracket);
+                return BracketNode();
             }
             else if (Current.Kind == TokenKind.Function)
             {
                 Token function = Match(TokenKind.Function);
-                Token openBracket = Match(TokenKind.OpenBracket);
-                NodeExpression nodeExpression = StartNode();
-                Token closedBracket = Match(TokenKind.ClosedBracket);
-                BracketExpression bracketExpression = new BracketExpression(openBracket, nodeExpression, closedBracket);
+                BracketExpression bracketExpression = BracketNode();
                 return new FunctionExpression(function,bracketExpression);
             }
             else if (Current.Kind == TokenKind.Minus)
@@ -143,6 +141,13 @@ namespace KA_LAB3
             }
             Token number = Match(TokenKind.Number);
             return new NumberExpression(number);
+        }
+        private BracketExpression BracketNode()
+        {
+            Token openBracket = Match(TokenKind.OpenBracket);
+            NodeExpression nodeExpression = StartNode();
+            Token closedBracket = Match(TokenKind.ClosedBracket);
+            return new BracketExpression(openBracket, nodeExpression, closedBracket);
         }
     }
 }

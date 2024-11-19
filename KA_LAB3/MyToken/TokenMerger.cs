@@ -10,7 +10,7 @@ namespace KA_LAB3.MyToken
     internal class TokenMerger
     {
         private readonly List<Token> _tokens;
-        private readonly List<string> _vars;
+        private readonly List<string> _vars = new List<string>();
         private int _position;
         public TokenMerger(List<Token> tokens,List<string> vars=null)
         {
@@ -89,11 +89,13 @@ namespace KA_LAB3.MyToken
             {
                 token = new Token(TokenKind.Function, word, _tokens[startPosition].Position);
             }
-            else if (_vars.Contains(word))
+            else if(_vars!=null)
             {
-                token = new Token(TokenKind.Var, word,_tokens[startPosition].Position);
-            }
-            
+                if(_vars.Contains(word))
+                    token = new Token(TokenKind.Var, word, _tokens[startPosition].Position);
+                else
+                    token = new Token(TokenKind.Bad, null, _tokens[startPosition].Position);
+            } 
             else
                 token = new Token(TokenKind.Bad, null, _tokens[startPosition].Position);
             return token;

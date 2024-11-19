@@ -1,4 +1,5 @@
-﻿using KA_LAB3.Expression;
+﻿using KA_LAB3.Error;
+using KA_LAB3.Expression;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,7 +82,12 @@ namespace KA_LAB3
             }
 
             NumberExpression number = (NumberExpression)root;
-            return Convert.ToDouble(number.Token.Value);
+            Token token = number.Token;
+            if (token.Kind == TokenKind.Bad)
+            {
+                ErrorWriting.ShowBadToken(token);
+            }
+            return Convert.ToDouble(token.Value);
         }
     }
 }

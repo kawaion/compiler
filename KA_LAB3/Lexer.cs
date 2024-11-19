@@ -22,8 +22,8 @@ namespace KA_LAB3
         public List<Token> Tokenisation()
         {
             var tokens = new SingleTokenLexer(_text).Split();
-            ErrorWriting.IsNumberOpenAndClosedBrackets(tokens);
-            ErrorWriting.IsTwoSignInRow(tokens);
+            //ErrorWriting.IsNumberOpenAndClosedBrackets(tokens);
+            //ErrorWriting.IsTwoSignInRow(tokens);
             tokens = new TokenMerger(tokens,_vars).Merge();
             return tokens;
         }
