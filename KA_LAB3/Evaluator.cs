@@ -10,8 +10,11 @@ namespace KA_LAB3
 {
     internal class Evaluator
     {
-        public Evaluator()
+        private readonly Dictionary<string, double> _dictVars;
+
+        public Evaluator(Dictionary<string, double> dictVars)
         {
+            _dictVars = dictVars;
         }
         public double Evaluate(NodeExpression root)
         {
@@ -71,7 +74,6 @@ namespace KA_LAB3
                     {
                         return args.Min();
                     }
-
                 }
                 
             }
@@ -80,8 +82,13 @@ namespace KA_LAB3
                 SignExpression signExpression = (SignExpression)root;
                 return -Evaluate(signExpression.Node);
             }
+            else if (root.Kind == ExpressionKind.Var)
+            {
+                VarExpression varExpression = (VarExpression)root;
+                return _dictVars[(string)varExpression.Token.Value];
+            }
 
-            NumberExpression number = (NumberExpression)root;
+                NumberExpression number = (NumberExpression)root;
             Token token = number.Token;
             if (token.Kind == TokenKind.Bad)
             {
