@@ -74,6 +74,10 @@ namespace KA_LAB3
                     {
                         return args.Min();
                     }
+                    if (word == "f1")
+                    {
+                        return 1/(Math.Pow(args[0],2) + Math.Pow(args[1],2));
+                    }
                 }
                 
             }
