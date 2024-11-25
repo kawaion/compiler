@@ -100,47 +100,48 @@ namespace KA_LAB3
         }
         private NodeExpression PrimaryNode()
         {
-            if (Current.Kind == TokenKind.Var)
+            switch (Current.Kind)
             {
-                return new VarExpression(NextToken());
-            }
-            else if(Current.Kind == TokenKind.OpenBracket)
-            {
-                return BracketNode();
-            }
-            else if (Current.Kind == TokenKind.Function)
-            {
-                Token function = Match(TokenKind.Function);
-                BracketExpression bracketExpression = BracketNode();
-                return new FunctionExpression(function,bracketExpression);
-            }
-            else if (Current.Kind == TokenKind.Minus)
-            {
-                Token sign = NextToken();
-                if(Current.Kind == TokenKind.OpenBracket)
-                {
-                    Token openBracket = Match(TokenKind.OpenBracket);
-                    NodeExpression nodeExpression = StartNode();
-                    Token closedBracket = Match(TokenKind.ClosedBracket);
-                    BracketExpression bracketExpression = new BracketExpression(openBracket, nodeExpression, closedBracket);
-                    return new SignExpression(sign, bracketExpression);
-                }
-                else
-                {
-                    if(Current.Kind == TokenKind.Number)
+
+                case TokenKind.Var: return new VarExpression(NextToken());
+
+                case TokenKind.OpenBracket: return BracketNode();
+
+                case TokenKind.Function:
                     {
-                        NumberExpression numberExpression = new NumberExpression(NextToken());
-                        return new SignExpression(sign, numberExpression);
+                        Token function = Match(TokenKind.Function);
+                        BracketExpression bracketExpression = BracketNode();
+                        return new FunctionExpression(function, bracketExpression);
                     }
-                    else
+                case TokenKind.Minus:
                     {
-                        VarExpression varExpression = new VarExpression(Match(TokenKind.Var));
-                        return new SignExpression(sign, varExpression);
+                        Token sign = NextToken();
+                        if (Current.Kind == TokenKind.OpenBracket)
+                        {
+                            BracketExpression bracketExpression = BracketNode();
+                            return new SignExpression(sign, bracketExpression);
+                        }
+                        else
+                        {
+                            if (Current.Kind == TokenKind.Number)
+                            {
+                                NumberExpression numberExpression = new NumberExpression(NextToken());
+                                return new SignExpression(sign, numberExpression);
+                            }
+                            else
+                            {
+                                VarExpression varExpression = new VarExpression(Match(TokenKind.Var));
+                                return new SignExpression(sign, varExpression);
+                            }
+                        }
                     }
-                }
+                default:
+                    {
+                        Token number = Match(TokenKind.Number);
+                        return new NumberExpression(number);
+                    }
+
             }
-            Token number = Match(TokenKind.Number);
-            return new NumberExpression(number);
         }
         private BracketExpression BracketNode()
         {
