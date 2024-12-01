@@ -31,6 +31,7 @@ namespace KA_LAB3.MyToken
                     case ')': tokens.Add(new Token(TokenKind.ClosedBracket, symbol, i)); break;
                     case '.': tokens.Add(new Token(TokenKind.Dot, symbol, i)); break;
                     case ',': tokens.Add(new Token(TokenKind.Comma, symbol, i)); break;
+                    case '\'': tokens.Add(new Token(TokenKind.Apostrophe, symbol, i)); break;
                     default: tokens.Add(GetTokenWithDifferentValues(symbol,i)); break;
                 }
                 i++;

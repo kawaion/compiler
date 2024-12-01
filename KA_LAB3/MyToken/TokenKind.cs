@@ -24,5 +24,6 @@ namespace KA_LAB3
         Dot,
         Comma,
         Bad,
+        Apostrophe,
     }
 }

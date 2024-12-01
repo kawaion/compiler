@@ -37,7 +37,18 @@ namespace KA_LAB3
         }
         private NodeExpression StartNode()
         {
-            return CommaNode();
+            return diffNode();
+        }
+        private NodeExpression diffNode()
+        {
+            NodeExpression leftNode = CommaNode();
+            while (Current.Kind == TokenKind.Apostrophe)
+            {
+                Token sign = NextToken();
+                NodeExpression rightNode = CommaNode();
+                leftNode = new BinaryExpression(leftNode, sign, rightNode);
+            }
+            return leftNode;
         }
         private NodeExpression CommaNode()
         {
@@ -110,37 +121,18 @@ namespace KA_LAB3
                 case TokenKind.Function:
                     {
                         Token function = Match(TokenKind.Function);
-                        BracketExpression bracketExpression = BracketNode();
-                        return new FunctionExpression(function, bracketExpression);
+                        return new FunctionExpression(function, PrimaryNode());
                     }
                 case TokenKind.Minus:
                     {
                         Token sign = NextToken();
-                        if (Current.Kind == TokenKind.OpenBracket)
-                        {
-                            BracketExpression bracketExpression = BracketNode();
-                            return new SignExpression(sign, bracketExpression);
-                        }
-                        else
-                        {
-                            if (Current.Kind == TokenKind.Number)
-                            {
-                                NumberExpression numberExpression = new NumberExpression(NextToken());
-                                return new SignExpression(sign, numberExpression);
-                            }
-                            else
-                            {
-                                VarExpression varExpression = new VarExpression(Match(TokenKind.Var));
-                                return new SignExpression(sign, varExpression);
-                            }
-                        }
+                        return new SignExpression(sign, PrimaryNode());
                     }
                 default:
                     {
                         Token number = Match(TokenKind.Number);
                         return new NumberExpression(number);
                     }
-
             }
         }
         private BracketExpression BracketNode()
