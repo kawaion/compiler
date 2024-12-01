@@ -15,7 +15,7 @@ namespace KA_LAB3.MyToken
 
                 case TokenKind.Number:
                 case TokenKind.Var:
-                    return 7;
+                    return 8;
                 default:
                     return 0;
             }
@@ -28,7 +28,7 @@ namespace KA_LAB3.MyToken
                 case TokenKind.Function:
                 case TokenKind.Plus:
                 case TokenKind.Minus:
-                    return 6;
+                    return 7;
                 default:
                     return 0;
             }
@@ -38,6 +38,16 @@ namespace KA_LAB3.MyToken
             switch (token.Kind)
             {
                 case TokenKind.OpenBracket:
+                    return 6;
+                default:
+                    return 0;
+            }
+        }
+        public int GetDiff(Token token)
+        {
+            switch (token.Kind)
+            {
+                case TokenKind.Apostrophe:
                     return 5;
                 default:
                     return 0;
@@ -70,6 +80,7 @@ namespace KA_LAB3.MyToken
                     return 0;
             }
         }
+        
 
     }
 }

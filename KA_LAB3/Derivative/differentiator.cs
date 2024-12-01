@@ -12,6 +12,7 @@ namespace KA_LAB3.Derivative
     {
         private NodeExpression _node;
         private string _nameVar;
+        private bool isContainsVar;
 
         public Differentiator(NodeExpression node,Token dx)
         {
@@ -63,7 +64,10 @@ namespace KA_LAB3.Derivative
                         Token token = literalExpression.Token;
                         if (token.Kind == TokenKind.Var)
                             if (IsVarDiffVar(token))
+                            {
+                                isContainsVar = true;
                                 return new LiteralExpression(new Token(TokenKind.Number, 1, token.Position));
+                            }
                         if (token.Kind == TokenKind.Number)
                             return new LiteralExpression(new Token(TokenKind.Number, 0, token.Position));
                         ErrorWriting.ShowBadToken(token);
@@ -117,6 +121,42 @@ namespace KA_LAB3.Derivative
                                                             new LiteralExpression(new Token(TokenKind.Number, 2, position))
                                                             )
                                         );
+        }
+        private NodeExpression DiffPow(NodeExpression u, Token caret, NodeExpression v)
+        {
+            isContainsVar = false;
+            NodeExpression du = DiffRoot(u);
+            int position = caret.Position;
+            Token star = new Token(TokenKind.Star, "*", position);
+            if (isContainsVar)
+            {
+                return GetNode("v*u^(v-1)*du", new Dictionary<string, NodeExpression>() { ["u"] = u, ["v"] = u, ["du"] = du, });
+            }
+            //if (isContainsVar)
+            //{
+            //    return new BinaryExpression
+            //                                (
+            //                                new BinaryExpression(
+            //                                                    v,
+            //                                                    star,
+            //                                                    new BinaryExpression
+            //                                                                        (u,
+            //                                                                        caret,
+            //                                                                        new BinaryExpression
+            //                                                                                            (v,
+            //                                                                                            new Token(TokenKind.Minus, "-", position),
+            //                                                                                            new LiteralExpression(new Token(TokenKind.Number, 1, position))
+            //                                                                                            )
+            //                                                                        )
+            //                                                    ),
+            //                                star,
+            //                                du
+            //                                );
+            //}
+            //if (IsVarDiffVar(u))
+            //{
+
+            //}
         }
 
     }

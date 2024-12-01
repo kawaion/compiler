@@ -1,4 +1,5 @@
-﻿using KA_LAB3.Expression;
+﻿using KA_LAB3.Derivative;
+using KA_LAB3.Expression;
 using KA_LAB3.MyToken;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,16 @@ namespace KA_LAB3
 
             while (true)
             {
+                currentPrecedency = precedencyToken.GetDiff(Current);
+                if (currentPrecedency == 0 || currentPrecedency < previousPrecedency)
+                    break;
+                Token tokenOperator = NextToken();
+                Token rightNode = Match(TokenKind.Var);
+                Differentiator differenciator = new Differentiator(leftNode, rightNode);
+                leftNode = differenciator.Differentiate();
+            }
+            while (true)
+            {
                 currentPrecedency = precedencyToken.GetBinary(Current);
                 if (currentPrecedency == 0 || currentPrecedency < previousPrecedency)
                     break;
@@ -87,6 +98,7 @@ namespace KA_LAB3
                 set.Add(rightNode);
                 leftNode = set;
             }
+            
             return leftNode;
         }
         //private NodeExpression CommaNode()
