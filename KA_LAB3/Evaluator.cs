@@ -24,15 +24,15 @@ namespace KA_LAB3
                     {
                         BinaryExpression binaryExpression = (BinaryExpression)root;
                         Token sign = binaryExpression.OperatorToken;
-                        double leftroot = Evaluate(binaryExpression.Left);
-                        double rightroot = Evaluate(binaryExpression.Right);
+                        double leftRoot = Evaluate(binaryExpression.Left);
+                        double rightRoot = Evaluate(binaryExpression.Right);
                         switch (sign.Kind)
                         {
-                            case TokenKind.Plus: return leftroot + rightroot;
-                            case TokenKind.Minus: return leftroot - rightroot;
-                            case TokenKind.Star: return leftroot * rightroot;
-                            case TokenKind.Slash: return leftroot / rightroot;
-                            case TokenKind.Caret: return Math.Pow(leftroot, rightroot);
+                            case TokenKind.Plus: return leftRoot + rightRoot;
+                            case TokenKind.Minus: return leftRoot - rightRoot;
+                            case TokenKind.Star: return leftRoot * rightRoot;
+                            case TokenKind.Slash: return leftRoot / rightRoot;
+                            case TokenKind.Caret: return Math.Pow(leftRoot, rightRoot);
                             default:
                                 ErrorWriting.ShowBadToken(sign);
                             return 0;
