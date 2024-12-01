@@ -1,4 +1,5 @@
 ﻿using KA_LAB3.Error;
+using KA_LAB3.Expression;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,17 @@ namespace KA_LAB3.MyToken
         private readonly List<Token> _tokens;
         private readonly List<string> _vars = new List<string>();
         private int _position;
+
+        private Dictionary<string, NodeExpression> nodes=null;
         public TokenMerger(List<Token> tokens,List<string> vars=null)
         {
             _tokens = tokens;
             _vars = vars;
             _position = 0;
+        }
+        public void SetNodeExpressions(Dictionary<string, NodeExpression> dict)
+        {
+            nodes = dict;
         }
         private Token Current => _tokens[_position];
         private Token NextToken()
@@ -95,7 +102,11 @@ namespace KA_LAB3.MyToken
                     token = new Token(TokenKind.Var, word, _tokens[startPosition].Position);
                 else
                     token = new Token(TokenKind.Bad, null, _tokens[startPosition].Position);
-            } 
+            }
+            else if (nodes != null)
+            {
+                token = new Token(TokenKind.Node, nodes[word], _tokens[startPosition].Position);
+            }
             else
                 token = new Token(TokenKind.Bad, null, _tokens[startPosition].Position);
             return token;

@@ -8,6 +8,7 @@ namespace KA_LAB3.MyToken
 {
     class PrecedencyToken
     {
+        
         public int GetLiteral(Token token)
         {
             switch (token.Kind)
@@ -15,7 +16,7 @@ namespace KA_LAB3.MyToken
 
                 case TokenKind.Number:
                 case TokenKind.Var:
-                    return 8;
+                    return 9;
                 default:
                     return 0;
             }
@@ -28,6 +29,17 @@ namespace KA_LAB3.MyToken
                 case TokenKind.Function:
                 case TokenKind.Plus:
                 case TokenKind.Minus:
+                    return 8;
+                default:
+                    return 0;
+            }
+        }
+        public int GetNodeExpression(Token token)
+        {
+            switch (token.Kind)
+            {
+
+                case TokenKind.Node:
                     return 7;
                 default:
                     return 0;

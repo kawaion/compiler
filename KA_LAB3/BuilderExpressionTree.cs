@@ -62,6 +62,13 @@ namespace KA_LAB3
                 leftNode = new LiteralExpression(literal);
             }
 
+            currentPrecedency = precedencyToken.GetNodeExpression(Current);
+            if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
+            {
+                Token node = NextToken();
+                leftNode = (NodeExpression)node.Value;
+            }
+
             currentPrecedency = precedencyToken.GetBracket(Current);
             if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
             {

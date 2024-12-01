@@ -25,5 +25,6 @@ namespace KA_LAB3
         Comma,
         Bad,
         Apostrophe,
+        Node,
     }
 }

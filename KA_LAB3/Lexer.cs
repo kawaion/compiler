@@ -13,7 +13,7 @@ namespace KA_LAB3
     {
         private readonly string _text;
         private readonly List<string> _vars;
-        private readonly Dictionary<string, NodeExpression> nodes;
+        private Dictionary<string, NodeExpression> nodes=null;
 
         public Lexer(string text, List<string> vars=null)
         {
@@ -22,12 +22,14 @@ namespace KA_LAB3
         }
         public void SetNodeExpressions(Dictionary<string, NodeExpression> dict)
         {
-
+            nodes = dict;
         }
         public List<Token> Tokenisation()
         {
             var tokens = new SingleTokenLexer(_text).Split();
-            tokens = new TokenMerger(tokens,_vars).Merge();
+            TokenMerger tokenMerger = new TokenMerger(tokens, _vars);
+            tokenMerger.SetNodeExpressions(nodes);
+            tokens = tokenMerger.Merge();
             return tokens;
         }
     }

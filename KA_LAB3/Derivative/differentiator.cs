@@ -44,7 +44,7 @@ namespace KA_LAB3.Derivative
                                 return new BinaryExpression(DiffRoot(leftRoot), sign, DiffRoot(rightRoot));
                             case TokenKind.Star: return DiffMulti(leftRoot,sign,rightRoot);
                             case TokenKind.Slash: return DiffDivide(leftRoot, sign, rightRoot);
-                            case TokenKind.Caret: return Math.Pow(leftRoot, rightRoot);
+                            case TokenKind.Caret: return DiffPow(leftRoot, sign, rightRoot);
                             default:
                                 ErrorWriting.ShowBadToken(sign);
                                 return new BadExpression();
@@ -73,20 +73,20 @@ namespace KA_LAB3.Derivative
                         ErrorWriting.ShowBadToken(token);
                         return new BadExpression();
                     }
-                case ExpressionKind.Unary:
-                    {
-                        UnaryExpression unaryExpression = (UnaryExpression)root;
-                        Token tokenOperator = unaryExpression.TokenOperator;
-                        NodeExpression node = unaryExpression.Node;
-                        if (tokenOperator.Kind == TokenKind.Plus)
-                            return Evaluate(node);
-                        if (tokenOperator.Kind == TokenKind.Minus)
-                            return -Evaluate(node);
-                        if (tokenOperator.Kind == TokenKind.Function)
-                            return SolveFunction(tokenOperator, node);
-                        ErrorWriting.ShowBadToken(tokenOperator);
-                        return 0;
-                    }
+                //case ExpressionKind.Unary:
+                //    {
+                //        UnaryExpression unaryExpression = (UnaryExpression)root;
+                //        Token tokenOperator = unaryExpression.TokenOperator;
+                //        NodeExpression node = unaryExpression.Node;
+                //        if (tokenOperator.Kind == TokenKind.Plus)
+                //            return Evaluate(node);
+                //        if (tokenOperator.Kind == TokenKind.Minus)
+                //            return -Evaluate(node);
+                //        if (tokenOperator.Kind == TokenKind.Function)
+                //            return SolveFunction(tokenOperator, node);
+                //        ErrorWriting.ShowBadToken(tokenOperator);
+                //        return 0;
+                //    }
                 default:
                     throw new Exception($"неизвестное выражение {root.Kind}");
             }
@@ -130,8 +130,9 @@ namespace KA_LAB3.Derivative
             Token star = new Token(TokenKind.Star, "*", position);
             if (isContainsVar)
             {
-                return GetNode("v*u^(v-1)*du", new Dictionary<string, NodeExpression>() { ["u"] = u, ["v"] = u, ["du"] = du, });
+                return BuildTreeNodeExpression("v*u^(v-1)*du", new Dictionary<string, NodeExpression>() { ["u"] = u, ["v"] = v, ["du"] = du, });
             }
+            return new BadExpression();
             //if (isContainsVar)
             //{
             //    return new BinaryExpression
@@ -157,6 +158,14 @@ namespace KA_LAB3.Derivative
             //{
 
             //}
+        }
+        private NodeExpression BuildTreeNodeExpression(string expression, Dictionary<string, NodeExpression> nodes)
+        {
+            Lexer lexer = new Lexer(expression);
+            lexer.SetNodeExpressions(nodes);
+            var tokens = lexer.Tokenisation();
+            BuilderExpressionTree builder = new BuilderExpressionTree(tokens);
+            return builder.Build();
         }
 
     }
