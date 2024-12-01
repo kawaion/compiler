@@ -25,7 +25,7 @@ namespace KA_LAB3
             string text = textBox1.Text;
             Lexer lexer = new Lexer(text,GetVarsFromDataGrid());
             var tokens = lexer.Tokenisation();
-            BuilderTokensIntoExpression buider = new BuilderTokensIntoExpression(tokens);
+            BuilderExpressionTree buider = new BuilderExpressionTree(tokens);
             root = buider.Build();
             button2.ForeColor = Color.Black;
             button2.Enabled = true;

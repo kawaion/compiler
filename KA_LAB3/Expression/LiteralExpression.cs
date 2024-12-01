@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace KA_LAB3.Expression
 {
-    class VarExpression : NodeExpression
+    class LiteralExpression:NodeExpression
     {
-        public VarExpression(Token token)
+        public LiteralExpression(Token token)
         {
             Token = token;
         }
-        public override ExpressionKind Kind => ExpressionKind.Var;
+
+        public override ExpressionKind Kind => ExpressionKind.Literal;
         public Token Token { get; }
     }
 }

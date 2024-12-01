@@ -56,7 +56,7 @@ namespace KA_LAB3.MyToken
             Token token;
 
             int startPosition = _position;
-            while (Current.Kind == TokenKind.Number & Current.Kind != TokenKind.End)
+            while ((Current.Kind == TokenKind.Number || Current.Kind == TokenKind.Dot) & Current.Kind != TokenKind.End)
             {
                 NextToken();
             }
@@ -64,7 +64,7 @@ namespace KA_LAB3.MyToken
             int count = endPosition - startPosition;
             var digitTokens = _tokens.GetRange(startPosition, count);
             string number = MergeToString(digitTokens);
-            if (int.TryParse(number, out int value))
+            if (double.TryParse(number, out double value))
             {
                 token = new Token(TokenKind.Number, value, _tokens[startPosition].Position);
             }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KA_LAB3.Expression
 {
-    class BracketExpression:UnaryExpression
+    class BracketExpression:NodeExpression
     {
         public BracketExpression(Token openBracket,NodeExpression node,Token closedBracet)
         {

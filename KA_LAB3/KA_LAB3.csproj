@@ -52,14 +52,11 @@
     <Compile Include="Expression\BadExpression.cs" />
     <Compile Include="Expression\BinaryExpression.cs" />
     <Compile Include="Expression\BracketExpression.cs" />
-    <Compile Include="Expression\CommaExpression.cs" />
+    <Compile Include="Expression\SetExpression.cs" />
     <Compile Include="Expression\ExpressionKind.cs" />
-    <Compile Include="Expression\FunctionExpression.cs" />
     <Compile Include="Expression\NodeExpression.cs" />
-    <Compile Include="Expression\NumberExpression.cs" />
-    <Compile Include="Expression\SignExpression.cs" />
+    <Compile Include="Expression\LiteralExpression.cs" />
     <Compile Include="Expression\UnaryExpression.cs" />
-    <Compile Include="Expression\VarExpression.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +64,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Lexer.cs" />
+    <Compile Include="MyToken\PrecedencyToken.cs" />
     <Compile Include="MyToken\TokenFunction.cs" />
     <Compile Include="MyToken\TokenMerger.cs" />
     <Compile Include="Program.cs" />
