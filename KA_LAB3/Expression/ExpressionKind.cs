@@ -8,14 +8,11 @@ namespace KA_LAB3.Expression
 {
     enum ExpressionKind
     {
-        Number,
-        Var,
         Binary,
-        Sign,
         Unary,
         Bracket,
-        Function,
         Bad,
-        Comma
+        Comma,
+        Literal
     }
 }

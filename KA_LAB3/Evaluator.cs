@@ -33,20 +33,9 @@ namespace KA_LAB3
                             case TokenKind.Star: return leftroot * rightroot;
                             case TokenKind.Slash: return leftroot / rightroot;
                             case TokenKind.Caret: return Math.Pow(leftroot, rightroot);
-                            case TokenKind.Dot:
-                                {
-                                    while (rightroot >= 1)
-                                    {
-                                        rightroot /= 10;
-                                    }
-                                    return leftroot + rightroot;
-                                }
                             default:
-                                {
-                                    ErrorWriting.ShowBadToken(sign);
-                                    return 0;
-                                }
-                        
+                                ErrorWriting.ShowBadToken(sign);
+                            return 0;
                         }
                     
                     }
@@ -55,61 +44,68 @@ namespace KA_LAB3
                         BracketExpression bracketExpression = (BracketExpression)root;
                         return Evaluate(bracketExpression.Node);
                     }
-                case ExpressionKind.Function:
+                case ExpressionKind.Literal:
                     {
-                        FunctionExpression functionExpression = (FunctionExpression)root;
-                        BracketExpression bracket = (BracketExpression)functionExpression.Node;
-                        NodeExpression nodeInBracket = bracket.Node;
-                        string word = (string)functionExpression.Function.Value;
-                        if (nodeInBracket.Kind != ExpressionKind.Comma)
-                        {
-                            double argument = Evaluate(nodeInBracket);
-                            if (word == "arctg")
-                            {
-                                return Math.Atan(argument);
-                            }
-                        }
-                        else
-                        {
-                            CommaExpression commaExpression = (CommaExpression)nodeInBracket;
-                            List<double> args = new List<double>();
-                            foreach (NodeExpression node in commaExpression.GetNodes())
-                            {
-                                args.Add(Evaluate(node));
-                            }
-                            if (word == "min")
-                            {
-                                return args.Min();
-                            }
-                            if (word == "f1")
-                            {
-                                return 1 / (Math.Pow(args[0], 2) + Math.Pow(args[1], 2));
-                            }
-                            
-                        }
-                        ErrorWriting.ShowBadToken((Token)functionExpression.Function.Value);
+                        LiteralExpression literalExpression = (LiteralExpression)root;
+                        Token token = literalExpression.Token;
+                        if (token.Kind == TokenKind.Var)
+                            return _dictVars[(string)token.Value];
+                        if (token.Kind == TokenKind.Number)
+                            return (double)token.Value;
+                        ErrorWriting.ShowBadToken(token);
                         return 0;
-
                     }
-                case ExpressionKind.Sign:
+                case ExpressionKind.Unary:
                     {
-                        SignExpression signExpression = (SignExpression)root;
-                        return -Evaluate(signExpression.Node);
-                    }
-                case ExpressionKind.Var:
-                    {
-                        VarExpression varExpression = (VarExpression)root;
-                        return _dictVars[(string)varExpression.Token.Value];
+                        UnaryExpression unaryExpression = (UnaryExpression)root;
+                        Token tokenOperator = unaryExpression.TokenOperator;
+                        NodeExpression node = unaryExpression.Node;
+                        if (tokenOperator.Kind == TokenKind.Plus)
+                            return Evaluate(node);
+                        if (tokenOperator.Kind == TokenKind.Minus)
+                            return -Evaluate(node);
+                        if (tokenOperator.Kind == TokenKind.Function)
+                            return SolveFunction(tokenOperator,node);
+                        ErrorWriting.ShowBadToken(tokenOperator);
+                        return 0;
                     }
                 default:
-                    NumberExpression number = (NumberExpression)root;
-                    Token token = number.Token;
-                    if (token.Kind == TokenKind.Bad)
-                    {
-                        ErrorWriting.ShowBadToken(token);
-                    }
-                    return Convert.ToDouble(token.Value);
+                    throw new Exception($"неизвестное выражение {root.Kind}");
             }
+        }
+        private double SolveFunction(Token function,NodeExpression bracketNode)
+        {
+            BracketExpression bracket = (BracketExpression)bracketNode;
+            NodeExpression nodeInBracket = bracket.Node;
+            string word = (string)function.Value;
+            if (nodeInBracket.Kind != ExpressionKind.Comma)
+            {
+                double argument = Evaluate(nodeInBracket);
+                if (word == "arctg")
+                {
+                    return Math.Atan(argument);
+                }
+            }
+            else
+            {
+                SetExpression commaExpression = (SetExpression)nodeInBracket;
+                List<double> args = new List<double>();
+                foreach (NodeExpression node in commaExpression.GetNodes())
+                {
+                    args.Add(Evaluate(node));
+                }
+                if (word == "min")
+                {
+                    return args.Min();
+                }
+                if (word == "f1")
+                {
+                    return 1 / (Math.Pow(args[0], 2) + Math.Pow(args[1], 2));
+                }
+
+            }
+            ErrorWriting.ShowBadToken(function);
+            return 0;
         }
     }
 }

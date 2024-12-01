@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace KA_LAB3.Expression
 {
-    internal class CommaExpression:NodeExpression
+    internal class SetExpression:NodeExpression
     {
         List<NodeExpression> nodes=new List<NodeExpression>();
-        public CommaExpression(NodeExpression first)
+        public SetExpression(NodeExpression first)
         {
             nodes.Add(first);
         }

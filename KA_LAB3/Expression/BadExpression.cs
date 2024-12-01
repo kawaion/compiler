@@ -10,7 +10,7 @@ namespace KA_LAB3.Expression
     {
         public BadExpression()
         {
-            throw new Exception("неизвестное выражение");
+            //throw new Exception("неизвестное выражение");
         }
 
         public override ExpressionKind Kind => ExpressionKind.Bad;
