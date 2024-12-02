@@ -78,7 +78,7 @@ namespace KA_LAB3
             BracketExpression bracket = (BracketExpression)bracketNode;
             NodeExpression nodeInBracket = bracket.Node;
             string word = (string)function.Value;
-            if (nodeInBracket.Kind != ExpressionKind.Comma)
+            if (nodeInBracket.Kind != ExpressionKind.Set)
             {
                 double argument = Evaluate(nodeInBracket);
                 if (word == "arctg")

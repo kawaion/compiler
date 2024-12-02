@@ -12,12 +12,15 @@ namespace KA_LAB3.Expression
         {
             Left = left;
             OperatorToken = operatorToken;
-            Right = right;
+            Right = right; 
+            Text = ToString(sb).ToString();
         }
         public override ExpressionKind Kind => ExpressionKind.Binary;
         public NodeExpression Left { get; }
         public Token OperatorToken { get; }
         public NodeExpression Right { get; }
+
+        public override string Text { get; set; }
 
         public override StringBuilder ToString(StringBuilder sb)
         {

@@ -8,7 +8,14 @@ namespace KA_LAB3.MyToken
 {
     enum TokenFunction
     {
+        pol,
         arctg,
+        sin,
+        cos,
+        tg,
+        ctg,
+        ln,
+        log,
         min,
         f1
     }

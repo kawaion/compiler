@@ -11,9 +11,13 @@ namespace KA_LAB3.Expression
         public BadExpression()
         {
             //throw new Exception("неизвестное выражение");
+            Text = "bad";
         }
 
         public override ExpressionKind Kind => ExpressionKind.Bad;
+
+
+        public override string Text { get; set; }
 
         public override StringBuilder ToString(StringBuilder sb)
         {

@@ -12,12 +12,14 @@ namespace KA_LAB3.Expression
         {
             TokenOperator = tokenOperator;
             Node = node;
+            Text = ToString(sb).ToString();
         }
         public override ExpressionKind Kind => ExpressionKind.Unary;
 
         public Token TokenOperator { get; }
         public NodeExpression Node { get; }
 
+        public override string Text { get; set; }
         public override StringBuilder ToString(StringBuilder sb)
         {
             sb.Append(TokenOperator.Value);

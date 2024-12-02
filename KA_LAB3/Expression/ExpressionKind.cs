@@ -12,7 +12,7 @@ namespace KA_LAB3.Expression
         Unary,
         Bracket,
         Bad,
-        Comma,
+        Set,
         Literal
     }
 }

@@ -46,15 +46,15 @@ namespace KA_LAB3
         private NodeExpression GetBranch(int previousPrecedency = 0)
         {
             NodeExpression leftNode = new BadExpression();
-
+            
             currentPrecedency = precedencyToken.GetUnary(Current);
             if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
             {
                 Token tokenOperator = NextToken();
-                NodeExpression rightNode = GetBranch();
+                NodeExpression rightNode = GetBranch(currentPrecedency);
                 leftNode = new UnaryExpression(tokenOperator, rightNode);
             }
-            
+
             currentPrecedency = precedencyToken.GetLiteral(Current);
             if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
             {
@@ -74,6 +74,8 @@ namespace KA_LAB3
             {
                 leftNode = BracketNode();
             }
+            
+            
 
             while (true)
             {
@@ -108,79 +110,15 @@ namespace KA_LAB3
             
             return leftNode;
         }
-        //private NodeExpression CommaNode()
-        //{
-        //    NodeExpression leftNode = TermNode();
-        //    CommaExpression comma = new CommaExpression(leftNode);
-        //    while (Current.Kind == TokenKind.Comma)
-        //    {
-        //        NextToken();
-        //        NodeExpression rightNode = TermNode();
-        //        comma.Add(rightNode);
-        //        leftNode = comma;
-        //    }
-        //    return leftNode;
-        //}
-        //private NodeExpression TermNode()
-        //{
-        //    NodeExpression leftNode = FactorNode();
-        //    while (Current.Kind == TokenKind.Plus ||
-        //           Current.Kind == TokenKind.Minus)
-        //    {
-        //        Token sign = NextToken();
-        //        NodeExpression rightNode = FactorNode();
-        //        leftNode = new BinaryExpression(leftNode, sign, rightNode);
-        //    }
-        //    return leftNode;
-        //}
-        //private NodeExpression FactorNode()
-        //{
-        //    NodeExpression leftNode = PowNode();
-        //    while (Current.Kind == TokenKind.Star ||
-        //           Current.Kind == TokenKind.Slash)
-        //    {
-        //        Token sign = NextToken();
-        //        NodeExpression rightNode = PowNode();
-        //        leftNode = new BinaryExpression(leftNode, sign, rightNode);
-        //    }
-        //    return leftNode;
-        //}
-        //private NodeExpression PowNode() 
-        //{
-        //    NodeExpression leftNode = DoubleNode();
-        //    while (Current.Kind == TokenKind.Caret)
-        //    {
-        //        Token pow = NextToken();
-        //        NodeExpression rightNode = DoubleNode();
-        //        leftNode = new BinaryExpression(leftNode, pow,rightNode);
-        //    }
-        //    return leftNode;
-        //}
-        //private NodeExpression DoubleNode()
-        //{
-        //    NodeExpression leftNode = PrimaryNode();
-        //    while (Current.Kind == TokenKind.Dot)
-        //    {
-        //        Token dot = NextToken();
-        //        NodeExpression rightNode = PrimaryNode();
-        //        leftNode = new BinaryExpression(leftNode, dot, rightNode);
-        //    }
-        //    return leftNode;
-        //}
-        //private NodeExpression PrimaryNode()
+        //private NodeExpression LiteralForUnary(int precedency)
         //{
         //    switch (Current.Kind)
         //    {
-
-        //        case TokenKind.Var: return new VarExpression(NextToken());
-
+        //        case TokenKind.Var:
+        //        case TokenKind.Number:
+        //            return new LiteralExpression(NextToken());
         //        case TokenKind.OpenBracket: return BracketNode();
-
-        //        default:
-        //            {
-        //                Token number = Match(TokenKind.Number);
-        //                return new NumberExpression(number);
-        //            }
+        //        default: return GetBranch(precedency);
         //    }
         //}
         private BracketExpression BracketNode()

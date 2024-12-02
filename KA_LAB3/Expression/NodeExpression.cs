@@ -8,7 +8,9 @@ namespace KA_LAB3.Expression
 {
     abstract internal class NodeExpression
     {
-        public abstract ExpressionKind Kind { get;}
+        public abstract ExpressionKind Kind { get; }
         public abstract StringBuilder ToString(StringBuilder sb);
+        public abstract string Text{ get; set; }
+        protected private StringBuilder sb = new StringBuilder();
     }
 }

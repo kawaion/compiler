@@ -11,11 +11,13 @@ namespace KA_LAB3.Expression
         public LiteralExpression(Token token)
         {
             Token = token;
+            Text = ToString(sb).ToString();
         }
 
         public override ExpressionKind Kind => ExpressionKind.Literal;
         public Token Token { get; }
 
+        public override string Text { get; set; }
         public override StringBuilder ToString(StringBuilder sb)
         {
             sb.Append(Token.Value);

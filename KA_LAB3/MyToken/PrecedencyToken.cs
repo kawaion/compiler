@@ -21,26 +21,14 @@ namespace KA_LAB3.MyToken
                     return 0;
             }
         }
-        public int GetUnary(Token token)
-        {
-            switch (token.Kind)
-            {
-
-                case TokenKind.Function:
-                case TokenKind.Plus:
-                case TokenKind.Minus:
-                    return 8;
-                default:
-                    return 0;
-            }
-        }
+        
         public int GetNodeExpression(Token token)
         {
             switch (token.Kind)
             {
 
                 case TokenKind.Node:
-                    return 7;
+                    return 8;
                 default:
                     return 0;
             }
@@ -50,6 +38,19 @@ namespace KA_LAB3.MyToken
             switch (token.Kind)
             {
                 case TokenKind.OpenBracket:
+                    return 7;
+                default:
+                    return 0;
+            }
+        }
+        public int GetUnary(Token token)
+        {
+            switch (token.Kind)
+            {
+
+                case TokenKind.Function:
+                case TokenKind.Plus:
+                case TokenKind.Minus:
                     return 6;
                 default:
                     return 0;

@@ -13,6 +13,7 @@ namespace KA_LAB3.Expression
             OpenBracket = openBracket;
             Node = node;
             ClosedBracet = closedBracet;
+            Text = ToString(sb).ToString();
         }
         public override ExpressionKind Kind => ExpressionKind.Bracket;
 
@@ -20,6 +21,7 @@ namespace KA_LAB3.Expression
         public NodeExpression Node { get; }
         public Token ClosedBracet { get; }
 
+        public override string Text { get; set; }
         public override StringBuilder ToString(StringBuilder sb)
         {
             sb.Append(OpenBracket.Value);
