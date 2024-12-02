@@ -73,6 +73,7 @@
     <Compile Include="MyToken\SingleTokenLexer.cs" />
     <Compile Include="MyToken\Token.cs" />
     <Compile Include="MyToken\TokenKind.cs" />
+    <Compile Include="UnbuilderExpressionTree.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

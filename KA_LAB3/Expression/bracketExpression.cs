@@ -19,5 +19,13 @@ namespace KA_LAB3.Expression
         public Token OpenBracket { get; }
         public NodeExpression Node { get; }
         public Token ClosedBracet { get; }
+
+        public override StringBuilder ToString(StringBuilder sb)
+        {
+            sb.Append(OpenBracket.Value);
+            sb=Node.ToString(sb);
+            sb.Append(ClosedBracet.Value);
+            return sb;
+        }
     }
 }

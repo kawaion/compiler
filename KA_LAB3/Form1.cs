@@ -86,5 +86,11 @@ namespace KA_LAB3
             }
             return null;
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            UnbuilderExpressionTree unbuilder = new UnbuilderExpressionTree(root);
+            textBox3.Text = unbuilder.Unbuild();
+        }
     }
 }

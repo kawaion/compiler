@@ -15,5 +15,11 @@ namespace KA_LAB3.Expression
 
         public override ExpressionKind Kind => ExpressionKind.Literal;
         public Token Token { get; }
+
+        public override StringBuilder ToString(StringBuilder sb)
+        {
+            sb.Append(Token.Value);
+            return sb;
+        }
     }
 }

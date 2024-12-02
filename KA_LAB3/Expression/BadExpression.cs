@@ -14,5 +14,10 @@ namespace KA_LAB3.Expression
         }
 
         public override ExpressionKind Kind => ExpressionKind.Bad;
+
+        public override StringBuilder ToString(StringBuilder sb)
+        {
+            throw new Exception("синтаксическая ошибка");
+        }
     }
 }

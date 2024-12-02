@@ -13,6 +13,7 @@ namespace KA_LAB3.Expression
         {
             nodes.Add(first);
         }
+        public override ExpressionKind Kind => ExpressionKind.Comma;
         public void Add(NodeExpression node)
         {
             nodes.Add(node);
@@ -21,6 +22,18 @@ namespace KA_LAB3.Expression
         {
             return nodes;
         }
-        public override ExpressionKind Kind => ExpressionKind.Comma;
+        //
+        public override StringBuilder ToString(StringBuilder sb)
+        {
+            foreach(var node in nodes)
+            {
+                sb=node.ToString(sb);
+                sb.Append(",");
+            }
+            sb.Remove(sb.Length - 1,1);
+            return sb;
+        }
+
+        
     }
 }

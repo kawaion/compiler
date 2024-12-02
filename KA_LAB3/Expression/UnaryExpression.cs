@@ -17,6 +17,12 @@ namespace KA_LAB3.Expression
 
         public Token TokenOperator { get; }
         public NodeExpression Node { get; }
-        //public NodeExpression Expression { get; }
+
+        public override StringBuilder ToString(StringBuilder sb)
+        {
+            sb.Append(TokenOperator.Value);
+            sb=Node.ToString(sb);
+            return sb;
+        }
     }
 }
