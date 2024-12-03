@@ -71,6 +71,7 @@ namespace KA_LAB3.MyToken
             int count = endPosition - startPosition;
             var digitTokens = _tokens.GetRange(startPosition, count);
             string number = MergeToString(digitTokens);
+            number = number.Replace(".", ",");
             if (double.TryParse(number, out double value))
             {
                 token = new Token(TokenKind.Number, value, _tokens[startPosition].Position);
