@@ -17,6 +17,7 @@ namespace KA_LAB3.MyToken
         ln,
         log,
         min,
-        f1
+        f1,
+        var
     }
 }

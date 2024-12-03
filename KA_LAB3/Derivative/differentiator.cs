@@ -211,8 +211,8 @@ namespace KA_LAB3.Derivative
                 var nodes=set.GetNodes();
                 if (nameFunction == "log")
                 {
-                    var a = nodes[0];
-                    NodeExpression xForLog = nodes[1];
+                    var a = nodes[1];
+                    NodeExpression xForLog = nodes[0];
                     NodeExpression dx = DiffRoot(xForLog);
                     return BuildTreeNodeExpression("1/(xForLog*ln(a))*dx", new Dictionary<string, NodeExpression>() { ["xForLog"] = xForLog, ["dx"] = dx, ["a"] = a });
                 }

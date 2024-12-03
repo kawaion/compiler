@@ -82,9 +82,17 @@ namespace KA_LAB3
             {
                 double argument = Evaluate(nodeInBracket);
                 if (word == "arctg")
-                {
                     return Math.Atan(argument);
-                }
+                if (word == "sin")
+                    return Math.Sin(argument);
+                if (word == "cos")
+                    return Math.Cos(argument);
+                if (word == "tg")
+                    return Math.Tan(argument);
+                if (word == "ctg")
+                    return 1/Math.Tan(argument);
+                if (word == "ln")
+                    return Math.Log(argument);
             }
             else
             {
@@ -100,12 +108,28 @@ namespace KA_LAB3
                 }
                 if (word == "f1")
                 {
+                    if(args.Count!=2) ErrorWriting.ShowBadToken(function);
                     return 1 / (Math.Pow(args[0], 2) + Math.Pow(args[1], 2));
                 }
+                if (word == "var")
+                {
+                    return Var(args);
+                }
+                if (word == "log")
+                {
+                    if (args.Count != 2) ErrorWriting.ShowBadToken(function);
+                    return Math.Log(args[0],args[1]);
+                }
+
 
             }
             ErrorWriting.ShowBadToken(function);
             return 0;
+        }
+        private double Var(List<double> args)
+        {
+            double m = args.Average();
+            return args.Sum(x => Math.Pow(x - m, 2)) / (args.Count - 1);
         }
     }
 }
