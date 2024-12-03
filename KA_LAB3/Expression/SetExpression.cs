@@ -34,8 +34,6 @@ namespace KA_LAB3.Expression
             }
             sb.Remove(sb.Length - 1,1);
             return sb;
-        }
-
-        
+        } 
     }
 }

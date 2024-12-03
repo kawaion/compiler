@@ -21,7 +21,6 @@ namespace KA_LAB3
         NodeExpression root;
         private void button1_Click(object sender, EventArgs e)
         {
-            //string text = "1+2^2*3";
             string text = textBox1.Text;
             Lexer lexer = new Lexer(text,GetVarsFromDataGrid());
             var tokens = lexer.Tokenisation();

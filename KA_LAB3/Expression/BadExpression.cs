@@ -10,7 +10,6 @@ namespace KA_LAB3.Expression
     {
         public BadExpression()
         {
-            //throw new Exception("неизвестное выражение");
             Text = "bad";
         }
 

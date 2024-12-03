@@ -46,37 +46,58 @@ namespace KA_LAB3
         private NodeExpression GetBranch(int previousPrecedency = 0)
         {
             NodeExpression leftNode = new BadExpression();
-            
-            currentPrecedency = precedencyToken.GetUnary(Current);
-            if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
+
+            leftNode = BuildUnaryExpressionIfTokenSuitable(previousPrecedency, leftNode);
+
+            leftNode = BuildLiteralExpressionIfTokenSuitable(previousPrecedency, leftNode);
+
+            leftNode = BuildNodeExpressionIfTokenSuitable(previousPrecedency, leftNode);
+
+            leftNode = BuildBracketExpressionIfTokenSuitable(previousPrecedency, leftNode);
+
+            leftNode = DiffNodeExpressionIfTokenSuitable(previousPrecedency, leftNode);
+
+            leftNode = BuildBinaryExpressionIfTokenSuitable(previousPrecedency, leftNode);
+
+            leftNode = BuildSetExpressionIfTokenSuitable(previousPrecedency, leftNode);
+
+            return leftNode;
+        }
+
+        private NodeExpression BuildSetExpressionIfTokenSuitable(int previousPrecedency, NodeExpression leftNode)
+        {
+            SetExpression set = new SetExpression(leftNode);
+            while (true)
             {
+                currentPrecedency = precedencyToken.GetSet(Current);
+                if (currentPrecedency == 0 || currentPrecedency < previousPrecedency)
+                    break;
+                NextToken();
+                NodeExpression rightNode = GetBranch(currentPrecedency + 1);
+                set.Add(rightNode);
+                leftNode = set;
+            }
+
+            return leftNode;
+        }
+
+        private NodeExpression BuildBinaryExpressionIfTokenSuitable(int previousPrecedency, NodeExpression leftNode)
+        {
+            while (true)
+            {
+                currentPrecedency = precedencyToken.GetBinary(Current);
+                if (currentPrecedency == 0 || currentPrecedency < previousPrecedency)
+                    break;
                 Token tokenOperator = NextToken();
                 NodeExpression rightNode = GetBranch(currentPrecedency);
-                leftNode = new UnaryExpression(tokenOperator, rightNode);
+                leftNode = new BinaryExpression(leftNode, tokenOperator, rightNode);
             }
 
-            currentPrecedency = precedencyToken.GetLiteral(Current);
-            if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
-            {
-                Token literal = NextToken();
-                leftNode = new LiteralExpression(literal);
-            }
+            return leftNode;
+        }
 
-            currentPrecedency = precedencyToken.GetNodeExpression(Current);
-            if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
-            {
-                Token node = NextToken();
-                leftNode = (NodeExpression)node.Value;
-            }
-
-            currentPrecedency = precedencyToken.GetBracket(Current);
-            if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
-            {
-                leftNode = BracketNode();
-            }
-            
-            
-
+        private NodeExpression DiffNodeExpressionIfTokenSuitable(int previousPrecedency, NodeExpression leftNode)
+        {
             while (true)
             {
                 currentPrecedency = precedencyToken.GetDiff(Current);
@@ -87,40 +108,58 @@ namespace KA_LAB3
                 Differentiator differenciator = new Differentiator(leftNode, rightNode);
                 leftNode = differenciator.Differentiate();
             }
-            while (true)
-            {
-                currentPrecedency = precedencyToken.GetBinary(Current);
-                if (currentPrecedency == 0 || currentPrecedency < previousPrecedency)
-                    break;
-                Token tokenOperator = NextToken();
-                NodeExpression rightNode = GetBranch(currentPrecedency);
-                leftNode = new BinaryExpression(leftNode, tokenOperator, rightNode);
-            }
-            SetExpression set = new SetExpression(leftNode);
-            while (true)
-            {
-                currentPrecedency = precedencyToken.GetSet(Current);
-                if (currentPrecedency == 0 || currentPrecedency < previousPrecedency)
-                    break;
-                NextToken();
-                NodeExpression rightNode = GetBranch(currentPrecedency+1);
-                set.Add(rightNode);
-                leftNode = set;
-            }
-            
+
             return leftNode;
         }
-        //private NodeExpression LiteralForUnary(int precedency)
-        //{
-        //    switch (Current.Kind)
-        //    {
-        //        case TokenKind.Var:
-        //        case TokenKind.Number:
-        //            return new LiteralExpression(NextToken());
-        //        case TokenKind.OpenBracket: return BracketNode();
-        //        default: return GetBranch(precedency);
-        //    }
-        //}
+
+        private NodeExpression BuildBracketExpressionIfTokenSuitable(int previousPrecedency, NodeExpression leftNode)
+        {
+            currentPrecedency = precedencyToken.GetBracket(Current);
+            if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
+            {
+                leftNode = BracketNode();
+            }
+
+            return leftNode;
+        }
+
+        private NodeExpression BuildNodeExpressionIfTokenSuitable(int previousPrecedency, NodeExpression leftNode)
+        {
+            currentPrecedency = precedencyToken.GetNodeExpression(Current);
+            if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
+            {
+                Token node = NextToken();
+                leftNode = (NodeExpression)node.Value;
+            }
+
+            return leftNode;
+        }
+
+        private NodeExpression BuildLiteralExpressionIfTokenSuitable(int previousPrecedency, NodeExpression leftNode)
+        {
+            currentPrecedency = precedencyToken.GetLiteral(Current);
+            if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
+            {
+                Token literal = NextToken();
+                leftNode = new LiteralExpression(literal);
+            }
+
+            return leftNode;
+        }
+
+        private NodeExpression BuildUnaryExpressionIfTokenSuitable(int previousPrecedency, NodeExpression leftNode)
+        {
+            currentPrecedency = precedencyToken.GetUnary(Current);
+            if (currentPrecedency != 0 & currentPrecedency >= previousPrecedency)
+            {
+                Token tokenOperator = NextToken();
+                NodeExpression rightNode = GetBranch(currentPrecedency);
+                leftNode = new UnaryExpression(tokenOperator, rightNode);
+            }
+
+            return leftNode;
+        }
+
         private BracketExpression BracketNode()
         {
             Token openBracket = Match(TokenKind.OpenBracket);
