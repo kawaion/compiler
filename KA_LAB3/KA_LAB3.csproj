@@ -68,6 +68,12 @@
     <Compile Include="MyToken\PrecedencyToken.cs" />
     <Compile Include="MyToken\TokenFunction.cs" />
     <Compile Include="MyToken\TokenMerger.cs" />
+    <Compile Include="Polynomes\ArithmeticOperator.cs" />
+    <Compile Include="Polynomes\Polynom.cs" />
+    <Compile Include="Polynomes\PolynomArithmetic.cs" />
+    <Compile Include="Polynomes\PolynomialPruner.cs" />
+    <Compile Include="Polynomes\Scaler.cs" />
+    <Compile Include="Polynomes\ValuePolynomialByX.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MyToken\SingleTokenLexer.cs" />

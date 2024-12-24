@@ -1,5 +1,6 @@
 ﻿using KA_LAB3.Error;
 using KA_LAB3.Expression;
+using KA_LAB3.Polynomes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -184,7 +185,7 @@ namespace KA_LAB3.Derivative
         {
             string nameFunction = (string)tokenOperator.Value;
             NodeExpression x = ((BracketExpression)bracket).Node;
-            if (bracket.Kind != ExpressionKind.Set)
+            if (x.Kind != ExpressionKind.Set)
             {
                 NodeExpression dx = DiffRoot(x);
                 if (true)
@@ -215,6 +216,24 @@ namespace KA_LAB3.Derivative
                     NodeExpression xForLog = nodes[0];
                     NodeExpression dx = DiffRoot(xForLog);
                     return BuildTreeNodeExpression("1/(xForLog*ln(a))*dx", new Dictionary<string, NodeExpression>() { ["xForLog"] = xForLog, ["dx"] = dx, ["a"] = a });
+                }
+                if (nameFunction == "pol")
+                {
+                    NodeExpression valueX = nodes[0];
+                    isContainsX = false;
+                    NodeExpression dx = DiffRoot(valueX);
+                    
+                    
+                    if (isContainsX & nodes.Count>2)
+                    {
+                        Token multi = new Token(TokenKind.Star, "*", 0);
+                        SetExpression newSet = new SetExpression(valueX);
+                        for (int i = 2; i < nodes.Count; i++)
+                            newSet.Add(new BinaryExpression(nodes[i], multi, GetLiteral(i - 1)));
+                        return BuildTreeNodeExpression("pol(newSet)", new Dictionary<string, NodeExpression>() { ["newSet"] = newSet});
+                    }
+                    else
+                        return GetLiteral(0);
                 }
             }
             return new BadExpression();

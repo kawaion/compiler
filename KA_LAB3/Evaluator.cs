@@ -1,10 +1,12 @@
 ﻿using KA_LAB3.Error;
 using KA_LAB3.Expression;
+using KA_LAB3.Polynomes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace KA_LAB3
 {
@@ -96,9 +98,9 @@ namespace KA_LAB3
             }
             else
             {
-                SetExpression commaExpression = (SetExpression)nodeInBracket;
+                SetExpression setExpression = (SetExpression)nodeInBracket;
                 List<double> args = new List<double>();
-                foreach (NodeExpression node in commaExpression.GetNodes())
+                foreach (NodeExpression node in setExpression.GetNodes())
                 {
                     args.Add(Evaluate(node));
                 }
@@ -120,8 +122,18 @@ namespace KA_LAB3
                     if (args.Count != 2) ErrorWriting.ShowBadToken(function);
                     return Math.Log(args[0],args[1]);
                 }
-
-
+                if (word == "pol")
+                {
+                    if (args.Count < 2) ErrorWriting.ShowBadToken(function);
+                    double x=args[0];
+                    double[] koefs = new double[args.Count-1];
+                    for (int i = 1; i < args.Count; i++)
+                    {
+                        koefs[i-1] = args[i];
+                    }
+                    Polynom polynom = new Polynom(koefs);
+                    return polynom.Solve(x);
+                }
             }
             ErrorWriting.ShowBadToken(function);
             return 0;
